@@ -1,0 +1,30 @@
+<%layout("layouts/list_page_boilerplt.ejs")%>
+<style>
+    .card{
+        width: 50%;
+    }
+    @media (max-width: 768px){
+        .card{
+            width: 100%;
+        }
+    }
+</style>
+<div class="card-main mb-5">
+<% for (application of application_data){%>
+        <a href="/portel/list/<%=application._id%>" class="listing-link">
+        <div class="card">
+           <div class="card-body card-border">
+                <h5 class="card-title"><%=application.company%></h5>
+                <h6 class="card-subtitle mb-2 text-body-secondary"><%=application.role%></h6>
+                <p class="card-text">
+                    <strong>Status:</strong><%=application.status%><br>
+                    <strong>Applied Date:</strong><%=application.appliedDate%><br>
+                    <strong>Deadline:</strong><%=application.deadline%><br>
+                    <strong>Location:</strong><%=application.location%>
+                </p>
+                <a href="/portel/list/<%=application._id%>" class="card-link btn btn-dark add-btn mt-3">View Details</a><br><br>
+            </div>
+        </div>
+        </a>
+<%}%>
+</div>

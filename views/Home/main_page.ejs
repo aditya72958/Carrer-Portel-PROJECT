@@ -1,0 +1,249 @@
+<%layout("layouts/boilerplate.ejs")%>
+
+
+<div class="bg-body-secondary application-stats">
+  <div class="container-fluid">
+    <div class="row g-3">
+  <!-- Total Applications -->
+  <div class="col-6 col-md-4 col-xl">
+    <div class="stat-card">
+      <div class="stat-icon text-primary">
+        <i class="fa-solid fa-folder-open"></i>
+      </div>
+      <div class="stat-title">Total Applications</div>
+      <div class="stat-number">
+        <%= count_application %>
+      </div>
+    </div>
+  </div>
+  <!-- Saved -->
+  <div class="col-6 col-md-4 col-xl">
+    <div class="stat-card">
+      <div class="stat-icon">🟠</div>
+      <div class="stat-title">Saved</div>
+      <div class="stat-number">
+        <%= Saved_application %>
+      </div>
+    </div>
+  </div>
+
+  <!-- Applied -->
+  <div class="col-6 col-md-4 col-xl">
+    <div class="stat-card">
+      <div class="stat-icon">🔵</div>
+      <div class="stat-title">Applied</div>
+      <div class="stat-number">
+        <%= Applied_application %>
+      </div>
+    </div>
+  </div>
+
+  <!-- OA/Test -->
+  <div class="col-6 col-md-6 col-xl">
+    <div class="stat-card">
+      <div class="stat-icon">🟣</div>
+      <div class="stat-title">OA / Test</div>
+      <div class="stat-number">
+        <%= OA_Test_application %>
+      </div>
+    </div>
+  </div>
+
+  <!-- Interview -->
+  <div class="col-6 col-md-6 col-xl">
+    <div class="stat-card">
+      <div class="stat-icon">🟡</div>
+      <div class="stat-title">Interview</div>
+      <div class="stat-number">
+        <%= Interview_application %>
+      </div>
+    </div>
+  </div>
+
+</div>
+
+  </div>
+</div>
+    <hr>
+    <div class="card border-0 shadow-sm mt-3" style="border-radius: 15px; overflow: hidden;">
+    <div class="bg-dark text-white px-4 py-3 d-flex justify-content-between align-items-center">
+        <h5 class="mb-0 fw-semibold">Application Status</h5>
+        <span class="badge bg-light text-dark">Upcoming 3</span>
+    </div>
+    <div class="table-responsive">
+        <table class="table table-hover align-middle mb-0">
+            <thead class="table-light">
+                <tr>
+                    <th class="ps-4 py-3 text-secondary">#</th>
+                    <th class="py-3 text-secondary">Company</th>
+                    <th class="py-3 text-secondary">Role</th>
+                    <th class="py-3 text-secondary">Status</th>
+                </tr>
+            </thead>
+            <tbody>
+                <% recentApplications.forEach((application, index) => { %>
+                    <tr>
+                        <th class="ps-4 py-3 text-secondary fw-normal">
+                            <%= index + 1 %>
+                        </th>
+
+                        <td class="py-3 fw-semibold">
+                            <%= application.company %>
+                        </td>
+
+                        <td class="py-3 text-secondary">
+                            <%= application.role %>
+                        </td>
+
+                        <td class="py-3">
+                            <% if (application.status === "🔵Applied") { %>
+                                <span class="badge rounded-pill bg-primary-subtle text-primary px-3 py-2">Applied</span>
+                            <% } else if (application.status === "🟡Interview") { %>
+                                <span class="badge rounded-pill px-3 py-2" style="background-color: rgb(242, 250, 19); color: rgb(80, 78, 2);">Interview</span>
+                            <% } else if (application.status === "🟣OA/Test") { %>
+                                <span class="badge rounded-pill px-3 py-2" style="background-color: rgb(173, 135, 209); color: rgb(11, 1, 20);">OA/Test</span>
+                            <% } else if (application.status === "🟢Accepted") { %>
+                                <span class="badge rounded-pill px-3 py-2" style="background-color: rgb(145, 244, 145); color: rgb(2, 80, 2);">Accepted</span>
+                                <% } else if (application.status === "🟠Saved") { %>
+                                <span class="badge rounded-pill px-3 py-2" style="background-color: rgb(244, 219, 123); color: rgb(114, 88, 4);">Saved</span>
+                            <% } else { %>
+                                <span class="badge rounded-pill bg-secondary-subtle text-secondary px-3 py-2"><%= application.status %></span>
+                            <% } %>
+                        </td>
+                    </tr>
+                <% }) %>
+                <% if (recentApplications.length === 0) { %>
+                    <tr>
+                        <td colspan="4" class="text-center py-5 text-secondary">
+                            No applications yet. Start tracking your applications!
+                        </td>
+                    </tr>
+                <% } %>
+            </tbody>
+
+        </table>
+    </div>
+</div>
+<hr>
+<!-- Job Opportunities Section -->
+<div class="container my-5">
+
+    <!-- Section Heading -->
+    <div class="d-flex justify-content-between align-items-center flex-wrap gap-2 mb-4">
+        <div>
+            <h2 class="fw-bold mb-1">Explore Opportunities</h2>
+            <p class="text-body-secondary mb-0">
+                Find your next internship or software development role.
+            </p>
+        </div>
+
+        <span class="badge rounded-pill text-bg-dark px-3 py-2">
+            <%= job_opportunities ? job_opportunities.length : 0 %> Opportunities
+        </span>
+    </div>
+
+    <!-- Job Cards -->
+    <div class="row g-4">
+
+        <% if (job_opportunities && job_opportunities.length > 0) { %>
+
+            <% job_opportunities.forEach(job => { %>
+
+                <div class="col-12 col-md-6 col-lg-4">
+
+                    <div class="job-card h-100">
+
+                        <!-- Card Header -->
+                        <div class="d-flex justify-content-between align-items-start gap-2 mb-3">
+
+                            <div class="company-logo-box">
+                                <% if (job.companyLogo) { %>
+                                    <img
+                                        src="<%= job.companyLogo %>"
+                                        alt="<%= job.company %> logo"
+                                        class="company-logo"
+                                        onerror="this.style.display='none';"
+                                    >
+                                <% } else { %>
+                                    <i class="fa-solid fa-building text-secondary fs-4"></i>
+                                <% } %>
+                            </div>
+
+                            <span class="job-type-badge">
+                                <%= job.jobType || "Opportunity" %>
+                            </span>
+
+                        </div>
+
+                        <!-- Job Title -->
+                        <h5 class="job-title">
+                            <%= job.title %>
+                        </h5>
+
+                        <!-- Company Name -->
+                        <p class="company-name">
+                            <i class="fa-solid fa-building me-2"></i>
+                            <%= job.company %>
+                        </p>
+
+                        <!-- Location -->
+                        <div class="job-location mb-3">
+                            <i class="fa-solid fa-location-dot me-2"></i>
+                            <%= job.location || "Location not specified" %>
+                        </div>
+
+                        <!-- Description -->
+                        <p class="job-description">
+                            <%= job.description
+                                ? job.description.substring(0, 150) +
+                                  (job.description.length > 150 ? "..." : "")
+                                : "View the application page for more details about this opportunity." %>
+                        </p>
+
+                        <!-- Footer -->
+                        <div class="job-card-footer mt-auto">
+
+                            <div class="posted-date">
+                                <% if (job.postedAt) { %>
+                                    <i class="fa-regular fa-clock me-1"></i>
+                                    <%= job.postedAt %>
+                                <% } else { %>
+                                    <i class="fa-regular fa-clock me-1"></i>
+                                    Posting date unavailable
+                                <% } %>
+                            </div>
+
+                            <a
+                                href="<%= job.applicationUrl %>"
+                                target="_blank"
+                                rel="noopener noreferrer"
+                                class="btn btn-dark apply-btn"
+                            >
+                                Apply Now
+                                <i class="fa-solid fa-arrow-up-right-from-square ms-2"></i>
+                            </a>
+
+                        </div>
+
+                    </div>
+
+                </div>
+
+            <% }) %>
+
+        <% } else { %>
+
+            <div class="col-12">
+                <div class="no-jobs-card text-center py-5">
+                    <i class="fa-solid fa-briefcase fs-1 text-secondary mb-3"></i>
+                    <h5>No opportunities available</h5>
+                    <p class="text-body-secondary mb-0">
+                        Please check again later for new opportunities.
+                    </p>
+                </div>
+            </div>
+
+        <% } %>
+
+    </div>
+</div>

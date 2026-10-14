@@ -1,0 +1,88 @@
+<%layout("layouts/boilerplate.ejs")%>
+    <form method="POST" action="/portel/list/<%=application_detail._id%>?_method=PUT" class="needs-validation" novalidate>
+        <div class="row mt-2">
+            <div class="col-8 offset-2">
+                <h1> Edit Your Application:</h1>
+                <div class="mb-3">
+                    <label for="company" class="form-label">Company</label>
+                    <input type="text" id="company" name="company" class="form-control" value="<%=application_detail.company%>" required>
+                </div>
+                <div class="mb-3">
+                    <label for="role" class="form-label">Role</label>
+                    <input type="text" id="role" class="form-control" name="role" value="<%=application_detail.role%>" required>
+                </div>
+                <div class="mb-3">
+                    <label for="status" class="form-label">Status</label>
+                    <select class="form-select" id="status" name="status" required>
+                    <option selected disabled value=""><%=application_detail.status%></option>
+                    <option>🟠Saved</option>
+                    <option>🔵Applied</option>
+                    <option>🟣OA/Test</option>
+                    <option>🟡Interview</option>
+                    <option>🟢Accepted</option>
+                    <option>🔴Rejected</option>
+                    <option>⚪Withdrawn</option>
+                    </select>
+                    <div class="invalid-feedback">Please select a valid state.</div>
+                </div>
+                <div class="mb-3">
+                    <label for="appliedDate" class="form-label">Applied-Date</label>
+                    <input type="date" id="appliedDate" class="form-control" name="appliedDate" value="<%=application_detail.appliedDate%>" required>
+                </div>
+                <div class="mb-3">
+                    <label for="deadline" class="form-label">Deadline</label>
+                    <input type="date" id="deadline" class="form-control" name="deadline" value="<%=application_detail.deadline%>" required>
+                </div>
+                <div class="mb-3">
+                    <label for="location" class="form-label">Location</label>
+                    <input type="text" id="location" class="form-control" name="location" value="<%=application_detail.location%>">
+                </div>
+                <div class="mb-3">
+                    <label for="link" class="form-label">Link</label>
+                    <input type="text" id="link" class="form-control" name="link" value="<%=application_detail.link%>">
+                </div>
+                <div class="mb-3">
+                    <label for="resume" class="form-label">Resume</label>
+                    <input type="text" id="resume" class="form-control" name="resume" value="<%=application_detail.resume%>">
+                </div>
+                <div class="mb-3">
+                    <label for="notes" class="form-label">Notes</label>
+                    <textarea id="notes" class="form-control" name="notes" value="<%=application_detail.notes%>"></textarea>
+                </div>
+                <button class="btn btn-dark add-btn mt-3">Update</button>
+            </div>
+        </div>
+    </form>
+    <script>
+    const appliedDateInput = document.getElementById("appliedDate");
+    const deadlineInput = document.getElementById("deadline");
+
+    function setDateLimits() {
+        const today = new Date();
+
+        const year = today.getFullYear();
+        const month = String(today.getMonth() + 1).padStart(2, "0");
+        const day = String(today.getDate()).padStart(2, "0");
+
+        const todayDate = `${year}-${month}-${day}`;
+
+        // Applied Date cannot be in the future
+        appliedDateInput.max = todayDate;
+
+        // Deadline cannot be before today
+        deadlineInput.min = todayDate;
+
+        // Deadline must be after Applied Date
+        if (appliedDateInput.value) {
+            deadlineInput.min = appliedDateInput.value;
+        }
+
+        // Clear an invalid deadline if Applied Date changes
+        if (appliedDateInput.value &&deadlineInput.value && deadlineInput.value <= appliedDateInput.value) {
+            deadlineInput.value = "";
+        }
+    }
+    appliedDateInput.addEventListener("change", setDateLimits);
+
+    setDateLimits();
+</script>

@@ -1,0 +1,41 @@
+<% layout("layouts/list_page_boilerplt.ejs")%>
+    <div class="mb-5">
+        <div>
+            <h3><%=application_detail.company%></h3>
+                <%=application_detail.role%>
+        </div>
+        <hr>
+        <div>
+            <b>Status:</b><br>
+            <%=application_detail.status%><br><br>
+            <b>Applied Date</b><br>
+            <%=application_detail.appliedDate%><br><br>
+            <b>Deadline</b><br>
+            <%=application_detail.deadline%><br><br>
+            <b>Location</b><br>
+            <%=application_detail.location%><br><br>
+            <b>Job Type</b><br>
+            <%=application_detail.role%><br><br>
+        </div>
+        <hr>
+        <br>
+        <div>
+            <b>Documents</b><br>
+            Resume:
+            <%=application_detail.resume%><br><br>
+        </div>
+        <hr>
+        <div>
+            <b>Notes</b>
+            <%=application_detail.notes%><br><br>
+        </div>
+        <hr><br><br>
+        <div style="display: flex; justify-content:space-evenly;">
+            <form method="POST" action="/portel/list/<%=application_detail._id%>?_method=DELETE">
+                <button class="btn btn-danger">Delete</button>
+            </form>
+            <a href="/portel/list/<%=application_detail._id%>/edit">
+                <button class="btn btn-primary">Edit</button>
+            </a>
+        </div>
+    </div>
